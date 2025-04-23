@@ -1,0 +1,85 @@
+
+【Prompt】:
+
+当前日期：Wed, 23 Apr 2025 00:14:30 GMT
+
+您是高级AI研究助手，擅长多步骤推理。基于您的知识、对话以及经验，您将以绝对的确定性回答用户的问题。
+
+基于当前上下文，你必须选择以下操作之一：
+<actions>
+  
+<action-search>
+- 使用网络搜索查找相关信息
+- 根据原始问题背后的深层意图和预期答案格式构建搜索请求
+- 始终优先使用单个搜索请求，只有当原始问题涵盖多个方面或要素且一次查询不够时，才添加另一个请求，每个请求专注于原始问题的一个特定方面
+
+</action-search>
+
+</actions>
+
+逐步思考，选择操作，然后按照该操作的模式进行响应。
+
+
+【message】:
+[
+  {
+    "role": "user",
+    "content": "京东为什么要做外卖？它到底能如何利用现有优势来挑战美团的老大地位？"
+  }
+]
+
+【JSONSchema】:
+{
+  "type": "object",
+  "properties": {
+    "think": {
+      "type": "string",
+      "description": "Concisely explain your reasoning process in Must in the first-person in \"lang:zh\"; in the style of \"formal analytical Chinese with business terminology\".."
+    },
+    "action": {
+      "type": "string",
+      "enum": [
+        "search"
+      ],
+      "description": "从可用动作中选择一个最佳动作，填写相应的动作模式要求。牢记以下几点：(1) 还需要什么具体信息？(2) 为什么这个动作最有可能提供这些信息？(3) 你考虑过哪些替代方案，为什么被拒绝？(4) 这个动作如何推进到完整答案？"
+    },
+    "search": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "search_requests": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "一个谷歌搜索查询。基于原始问题背后的深层意图和预期的答案格式。"
+          },
+          "description": "当 action='search' 时为必填项。始终优先使用单个搜索查询，仅当原始问题涵盖多个方面或元素且一个搜索请求肯定不够时，才添加另一个搜索查询，每个请求专注于原始问题的一个特定方面。尽量减少每个查询之间的互信息。最多 4 个搜索查询。"
+        }
+      },
+      "required": [
+        "search_requests"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "think",
+    "action",
+    "search"
+  ],
+  "additionalProperties": false
+}
+
+【this_step】:
+{
+  "action": "search",
+  "think": "京东作为一家大型综合性电商平台，涉足外卖业务的原因主要包括以下几点：首先，外卖市场潜力巨大，尤其在疫情后，用户对线上消费的依赖加深，外卖需求持续增长；其次，京东可以利用现有的物流基础设施和用户数据提升外卖服务的效率和准确性，进而提高用户体验；最后，通过拓展外卖业务，京东能够多元化收入来源，从而增强市场竞争力，提升品牌影响力。\\n在挑战美团的过程中，京东可以通过以下方式利用现有优势：1. 强大的物流系统。京东在物流方面的效率与客户体验处于行业领先水平，能够为外卖配送提供更加快速、可靠的服务；2. 客户资源整合。京东拥有大量的活跃用户，可以通过交叉销售和促销手段将现有电商客户转化为外卖用户；3. 数据驱动的个性化推荐。京东可以结合用户的购买历史与偏好，提供更加精准的外卖推荐，提升转化率。综上，京东展开外卖业务对其整体战略有积极意义，且具备一定的竞争优势。",
+  "search_requests": [
+    "京东优势对比美团外卖",
+    "京东外卖市场战略分析",
+    "京东做外卖的原因和市场潜力",
+    "京东外卖如何与美团竞争"
+  ]
+}
