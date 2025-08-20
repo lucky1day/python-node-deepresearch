@@ -71,6 +71,8 @@ python run_agent.py "京东为什么要做外卖？它到底能如何利用现�
 
 
 # 项目框架
+
+```mermaid
 flowchart TD
     Start([Start]) --> Init[Initialize context & variables]
     Init --> CheckBudget{Token budget<br/>exceeded?}
